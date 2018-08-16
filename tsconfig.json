@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "lib": [
+      "dom",
+      "es2015"
+    ],
+    "module": "commonjs",
+    "outDir": "public",
+    "sourceMap": true,
+    "target": "es2015"
+  },
+  "compileOnSave": true,
+  "include": [
+    "src",
+    "types"
+  ]
+}
