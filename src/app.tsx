@@ -1,4 +1,5 @@
 import * as React from "react";
+import AnimationCube from "./components/AnimationCube";
 import Hello from "./components/Hello";
 import Simple from "./components/Simple";
 import { checkForWebGPU } from "./utils";
@@ -10,6 +11,8 @@ const App = () => {
       <Hello />
       <h2>Simple</h2>
       <Simple />
+      <h2>AnimationCube</h2>
+      <AnimationCube />
     </div>
   ) : (
     <div>

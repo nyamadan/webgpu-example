@@ -93,11 +93,22 @@ export default class Simple extends React.Component {
   private uniformBuffers: WebGPUBuffer[];
   private currentUniformBufferIndex: number;
   private vertexBuffer: WebGPUBuffer;
+  private requestAnimationId: number;
 
   constructor(props, context?) {
     super(props, context);
 
+    this.requestAnimationId = 0;
+
     this.draw = this.draw.bind(this);
+    this.onCanvasRef = this.onCanvasRef.bind(this);
+  }
+
+  public componentWillUnmount() {
+    if (this.requestAnimationId !== 0) {
+      cancelAnimationFrame(this.requestAnimationId);
+      this.requestAnimationId = 0;
+    }
   }
 
   public componentDidMount() {
@@ -176,11 +187,13 @@ export default class Simple extends React.Component {
   }
 
   public render() {
-    const onCanvasRef = (el) => this.canvas = el;
-
     return (
-      <canvas ref={onCanvasRef} />
+      <canvas ref={this.onCanvasRef} />
     );
+  }
+
+  private onCanvasRef(el: HTMLCanvasElement) {
+    this.canvas = el;
   }
 
   private draw() {
@@ -204,7 +217,7 @@ export default class Simple extends React.Component {
     commandBuffer.commit();
 
     this.currentUniformBufferIndex = (this.currentUniformBufferIndex + 1) % NumActiveUniformBuffers;
-    requestAnimationFrame(this.draw);
+    this.requestAnimationId = requestAnimationFrame(this.draw);
   }
 
   private updateUniformData(index: number) {

@@ -89,7 +89,7 @@ declare class WebGPUComputePipelineDescriptor {
 
 declare class WebGPUDepthStencilDescriptor {
   depthWriteEnabled: boolean;
-  depthCompareFunction: WebGPUCompareFunction | "never" | "less";
+  depthCompareFunction: WebGPUCompareFunction;
 }
 
 declare interface WebGPUBuffer {

@@ -1,6 +1,6 @@
 import * as React from "react";
-import { checkForWebGPU } from "../utils";
-const ShaderSource = `#include <metal_stdlib>
+const ShaderSource = `
+#include <metal_stdlib>
 
 using namespace metal;
 
@@ -91,21 +91,20 @@ export default class Hello extends React.Component {
   }
 
   private draw() {
-    const { gpu, commandQueue, renderPassDescriptor, renderPipelineState } = this;
-    const commandBuffer = commandQueue.createCommandBuffer();
-    const drawable = gpu.nextDrawable();
-    renderPassDescriptor.colorAttachments[0].texture = drawable.texture;
+    const commandBuffer = this.commandQueue.createCommandBuffer();
+    const drawable = this.gpu.nextDrawable();
+    this.renderPassDescriptor.colorAttachments[0].texture = drawable.texture;
 
     const commandEncoder = commandBuffer.createRenderCommandEncoderWithDescriptor(
-      renderPassDescriptor,
+      this.renderPassDescriptor,
     );
-    commandEncoder.setRenderPipelineState(renderPipelineState);
+    commandEncoder.setRenderPipelineState(this.renderPipelineState);
 
     // NOTE: We didn't attach any buffers. We create the geometry in the vertex shader using
     // the vertex ID.
 
     // NOTE: Our API proposal uses the enum value "triangle" here. We haven't got around to implementing the enums yet.
-    commandEncoder.drawPrimitives(gpu.PrimitiveTypeTriangle, 0, 3);
+    commandEncoder.drawPrimitives(this.gpu.PrimitiveTypeTriangle, 0, 3);
 
     commandEncoder.endEncoding();
     commandBuffer.presentDrawable(drawable);
